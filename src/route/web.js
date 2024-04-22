@@ -1,13 +1,16 @@
-import express from "express";
-import homeController from "../controllers/homeController";
+import express from 'express';
+import homeController from '../controllers/homeController';
 
-let router = express.Router();
+const router = express.Router();
 
-let initWebRoutes = (app) => {
+const initWebRoutes = (app) => {
     router.get('/', homeController.getHomePage);
     router.get('/about', homeController.getAboutPage);
 
-    return app.use("/", router);
-}
+    router.get('/crud', homeController.getCRUDPage);
+    router.post('/post-crud', homeController.postCRUDPage);
+
+    return app.use('/', router);
+};
 
 module.exports = initWebRoutes;
