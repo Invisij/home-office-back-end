@@ -1,9 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import helmet from 'helmet';
 import viewEngine from './config/viewEngine';
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
-import morgan from 'morgan';
 require('dotenv').config();
 const app = express();
 
@@ -11,16 +12,26 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+app.use(helmet());
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', process.env.REACT_APP_BACKEND_URL);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 //init db
 connectDB();
 
-//init router
+//config view engine
 viewEngine(app);
+
+//init router
 initWebRoutes(app);
 
-const port = process.env.PORT || 5000;
 //Port === undefined => port = 5000
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
     //callback

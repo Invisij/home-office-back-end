@@ -9,14 +9,14 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
         />
-        <title>Crud page</title>
+        <title>Create user page</title>
     </head>
 
     <body>
         <div class="container">
             <div class="mt-5 row">
                 <h2>Create a new user</h2>
-                <form class="row g-3" action="/post-crud" method="POST">
+                <form class="row g-3" action="/post-user" method="POST">
                     <div class="row mb-3">
                         <label for="email" class="col-2 col-form-label">Email</label>
                         <div class="col-4">
@@ -40,8 +40,8 @@
                     <div class="col-md-2">
                         <label for="role" class="form-label">Role</label>
                         <select name="role" class="form-select">
-                            <option selected>USER</option>
-                            <option>ADMIN</option>
+                            <option value="USER" selected>USER</option>
+                            <option value="ADMIN">ADMIN</option>
                         </select>
                     </div>
                     <div class="row mt-4 mb-3">
@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="col-2 btn btn-primary">Sign in</button>
+                    <button type="submit" class="col-2 btn btn-primary">Create</button>
                 </form>
             </div>
         </div>
