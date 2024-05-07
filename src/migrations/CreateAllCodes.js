@@ -2,33 +2,36 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('maincategories', {
+        await queryInterface.createTable('AllCodes', {
             id: {
-                type: Sequelize.UUID,
-                defaultValue: Sequelize.UUIDV4,
+                type: Sequelize.INTEGER,
+                autoIncrement: true,
                 allowNull: false,
                 primaryKey: true,
             },
-            name: {
+            key: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            type: {
                 type: Sequelize.STRING,
             },
-            image: {
-                type: Sequelize.TEXT,
-            },
-            description: {
-                type: Sequelize.TEXT,
+            value: {
+                type: Sequelize.STRING,
             },
             createdAt: {
-                allowNull: false,
                 type: Sequelize.DATE,
+                defaultValue: Sequelize.fn('now'),
+                allowNull: false,
             },
             updatedAt: {
-                allowNull: false,
                 type: Sequelize.DATE,
+                defaultValue: Sequelize.fn('now'),
+                allowNull: false,
             },
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('maincategories');
+        await queryInterface.dropTable('AllCodes');
     },
 };

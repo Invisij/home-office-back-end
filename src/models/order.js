@@ -13,16 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     }
     Order.init(
         {
-            id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                allowNull: false,
-                primaryKey: true,
-            },
+            customerId: DataTypes.INTEGER,
+            amount: DataTypes.INTEGER,
+            orderAddress: DataTypes.STRING,
+            orderStatus: DataTypes.STRING,
             description: DataTypes.TEXT,
         },
         {
             sequelize,
+            timestamps: true,
             modelName: 'Order',
         },
     );

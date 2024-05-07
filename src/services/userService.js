@@ -34,7 +34,7 @@ class userService {
                 return {
                     errCode: 0,
                     message: 'Login successful',
-                    data: { id: user.id, role: user.role },
+                    data: { id: user.id, roleId: user.roleId, firstName: user.firstName, lastName: user.lastName },
                 };
             }
 
@@ -71,7 +71,7 @@ class userService {
             };
         }
     };
-    static createUser = async ({ email, password, role, firstName, lastName, phoneNumber, address }) => {
+    static createUser = async ({ email, password, roleId, firstName, lastName, phoneNumber, address }) => {
         try {
             if (!email) {
                 return {
@@ -99,7 +99,7 @@ class userService {
             const newUser = await db.User.create({
                 email,
                 password: passwordHash,
-                role,
+                roleId,
                 firstName,
                 lastName,
                 phoneNumber,
@@ -117,7 +117,7 @@ class userService {
             };
         }
     };
-    static updateUser = async ({ id, role, firstName, lastName, phoneNumber, address }) => {
+    static updateUser = async ({ id, roleId, firstName, lastName, phoneNumber, address }) => {
         try {
             if (!id) {
                 return {
@@ -129,7 +129,7 @@ class userService {
                 where: { id },
             });
             if (user) {
-                await db.User.update({ role, firstName, lastName, phoneNumber, address }, { where: { id } });
+                await db.User.update({ roleId, firstName, lastName, phoneNumber, address }, { where: { id } });
                 return {
                     errCode: 0,
                     message: 'Edit user succcessful',
@@ -170,6 +170,36 @@ class userService {
             return {
                 errCode: 0,
                 message: 'Delete user successful',
+            };
+        } catch (error) {
+            return {
+                errCode: 1,
+                message: error.message,
+            };
+        }
+    };
+    static getAllCode = async ({ type }) => {
+        try {
+            let allCode;
+            if (type.trim()) {
+                allCode = await db.AllCode.findAll({
+                    where: {
+                        type,
+                    },
+                });
+            } else {
+                allCode = await db.AllCode.findAll();
+            }
+            if (allCode) {
+                return {
+                    errCode: 0,
+                    message: 'Get all code successful',
+                    allCode,
+                };
+            }
+            return {
+                errCode: 1,
+                message: 'Get all code failed',
             };
         } catch (error) {
             return {

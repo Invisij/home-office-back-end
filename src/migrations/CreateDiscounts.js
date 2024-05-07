@@ -2,33 +2,37 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('subcategories', {
+        await queryInterface.createTable('Discounts', {
             id: {
-                type: Sequelize.UUID,
-                defaultValue: Sequelize.UUIDV4,
+                type: Sequelize.INTEGER,
+                autoIncrement: true,
                 allowNull: false,
                 primaryKey: true,
             },
+            number: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+            },
             name: {
                 type: Sequelize.STRING,
-            },
-            image: {
-                type: Sequelize.TEXT,
+                allowNull: false,
             },
             description: {
                 type: Sequelize.TEXT,
             },
             createdAt: {
-                allowNull: false,
                 type: Sequelize.DATE,
+                defaultValue: Sequelize.fn('now'),
+                allowNull: false,
             },
             updatedAt: {
-                allowNull: false,
                 type: Sequelize.DATE,
+                defaultValue: Sequelize.fn('now'),
+                allowNull: false,
             },
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('subcategories');
+        await queryInterface.dropTable('Discounts');
     },
 };

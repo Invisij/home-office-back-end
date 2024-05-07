@@ -1,7 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 module.exports = (sequelize, DataTypes) => {
-    class Promotion extends Model {
+    class AllCode extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -11,20 +11,17 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
         }
     }
-    Promotion.init(
+    AllCode.init(
         {
-            id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                allowNull: false,
-                primaryKey: true,
-            },
-            numberof: DataTypes.INTEGER,
+            key: DataTypes.STRING,
+            type: DataTypes.STRING,
+            value: DataTypes.STRING,
         },
         {
             sequelize,
-            modelName: 'Promotion',
+            timestamps: true,
+            modelName: 'AllCode',
         },
     );
-    return Promotion;
+    return AllCode;
 };

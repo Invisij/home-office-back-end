@@ -13,6 +13,13 @@ const initWebRoutes = (app) => {
     router.put('/v1/api/update-user', userController.updateUser);
     router.delete('/v1/api/delete-user', userController.deleteUser);
 
+    // Get all code
+    router.get('/v1/api/get-all-code', userController.getAllCode);
+
+    // Images
+    router.get('v1/api/images', userController.getImages);
+    router.post('v1/api/upload', userController.postImages);
+
     return app.use('/', router);
 };
 

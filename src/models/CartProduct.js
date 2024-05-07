@@ -1,7 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 module.exports = (sequelize, DataTypes) => {
-    class MainCategory extends Model {
+    class CartProduct extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -11,22 +11,18 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
         }
     }
-    MainCategory.init(
+    CartProduct.init(
         {
-            id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                allowNull: false,
-                primaryKey: true,
-            },
-            name: DataTypes.STRING,
-            image: DataTypes.TEXT,
-            description: DataTypes.TEXT,
+            cartId: DataTypes.INTEGER,
+            productId: DataTypes.INTEGER,
+            price: DataTypes.INTEGER,
+            quantity: DataTypes.INTEGER,
         },
         {
             sequelize,
-            modelName: 'MainCategory',
+            timestamps: true,
+            modelName: 'CartProduct',
         },
     );
-    return MainCategory;
+    return CartProduct;
 };
