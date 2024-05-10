@@ -71,7 +71,7 @@ class userService {
             };
         }
     };
-    static createUser = async ({ email, password, roleId, firstName, lastName, phoneNumber, address }) => {
+    static createUser = async ({ email, password, roleId, firstName, lastName, phoneNumber, billingAddress }) => {
         try {
             if (!email) {
                 return {
@@ -103,7 +103,7 @@ class userService {
                 firstName,
                 lastName,
                 phoneNumber,
-                address,
+                billingAddress,
             });
             return {
                 errCode: 0,
@@ -117,7 +117,7 @@ class userService {
             };
         }
     };
-    static updateUser = async ({ id, roleId, firstName, lastName, phoneNumber, address }) => {
+    static updateUser = async ({ id, roleId, firstName, lastName, phoneNumber, billingAddress }) => {
         try {
             if (!id) {
                 return {
@@ -129,7 +129,7 @@ class userService {
                 where: { id },
             });
             if (user) {
-                await db.User.update({ roleId, firstName, lastName, phoneNumber, address }, { where: { id } });
+                await db.User.update({ roleId, firstName, lastName, phoneNumber, billingAddress }, { where: { id } });
                 return {
                     errCode: 0,
                     message: 'Edit user succcessful',
