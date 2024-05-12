@@ -1,4 +1,3 @@
-import db from '../models';
 import userService from '../services/userService';
 
 class UserController {
@@ -76,20 +75,6 @@ class UserController {
                 errCode: -1,
                 message: 'Error from server',
             });
-        }
-    };
-    getImages = async (req, res, next) => {
-        try {
-            return 0;
-        } catch (error) {
-            next(error);
-        }
-    };
-    postImages = async (req, res, next) => {
-        try {
-            return 0;
-        } catch (error) {
-            next(error);
         }
     };
 }

@@ -2,15 +2,16 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
-// import imagesEngine from './config/imagesEngine';
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
 require('dotenv').config();
 const app = express();
 
 //init middlewares
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(function (req, res, next) {
@@ -23,9 +24,6 @@ app.use(function (req, res, next) {
 
 //init db
 connectDB();
-
-//config
-// imagesEngine(app);
 
 //init router
 initWebRoutes(app);

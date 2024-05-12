@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     MainCat.init(
         {
             name: DataTypes.STRING,
-            image: DataTypes.BLOB,
+            image: DataTypes.BLOB('long'),
             description: DataTypes.TEXT,
         },
         {
