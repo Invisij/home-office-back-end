@@ -1,20 +1,24 @@
 import db from '../models';
 
-class mainCatService {
-    static readMainCat = async ({ name }) => {
+class cartService {
+    static readCart = async ({ id, userId }) => {
         try {
-            let mainCats;
-            if (!name) {
-                mainCats = await db.MainCat.findAll();
-            } else {
-                mainCats = await db.MainCat.findAll({
-                    where: { name },
+            let carts;
+            if (id) {
+                carts = await db.Cart.findAll({
+                    where: { id },
                 });
+            } else if (userId) {
+                carts = await db.Cart.findAll({
+                    where: { userId },
+                });
+            } else {
+                carts = await db.Cart.findAll();
             }
             return {
                 errCode: 0,
                 message: 'query successful',
-                data: mainCats,
+                data: carts,
             };
         } catch (error) {
             return {
@@ -23,38 +27,32 @@ class mainCatService {
             };
         }
     };
-    static createMainCat = async ({ name, image, description }) => {
+    static createCart = async ({ userId, amount, description }) => {
         try {
-            if (!name) {
+            if (!userId) {
                 return {
                     errCode: 2,
                     message: 'Missing name',
                 };
             }
-            if (!image) {
-                return {
-                    errCode: 2,
-                    message: 'Missing image',
-                };
-            }
-            const isMainCatExists = await db.MainCat.findOne({
-                where: { name },
+            const isCartExists = await db.Cart.findOne({
+                where: { userId },
             });
-            if (isMainCatExists) {
+            if (isCartExists) {
                 return {
                     errCode: 3,
-                    message: 'This main cat already exists',
+                    message: 'This cart already exists',
                 };
             }
-            const newMainCat = await db.MainCat.create({
-                name,
-                image,
+            const newCart = await db.Cart.create({
+                userId,
+                amount,
                 description,
             });
             return {
                 errCode: 0,
-                message: 'Created a new mainCat successful',
-                data: newMainCat,
+                message: 'Created a new cart successful',
+                data: newCart,
             };
         } catch (error) {
             return {
@@ -63,7 +61,7 @@ class mainCatService {
             };
         }
     };
-    static updateMainCat = async ({ id, name, image, description }) => {
+    static updateCart = async ({ id, userId, amount, description }) => {
         try {
             if (!id) {
                 return {
@@ -71,20 +69,20 @@ class mainCatService {
                     message: 'Missing id',
                 };
             }
-            const mainCat = await db.MainCat.findOne({
+            const cart = await db.Cart.findOne({
                 where: { id },
             });
-            if (mainCat) {
-                await db.MainCat.update({ name, image, description }, { where: { id } });
+            if (cart) {
+                await db.Cart.update({ userId, amount, description }, { where: { id } });
                 return {
                     errCode: 0,
-                    message: 'Edit mainCat succcessful',
-                    mainCat,
+                    message: 'Edit cart succcessful',
+                    cart,
                 };
             }
             return {
                 errCode: 3,
-                message: 'Edit mainCat failed',
+                message: 'Edit cart failed',
             };
         } catch (error) {
             return {
@@ -93,7 +91,7 @@ class mainCatService {
             };
         }
     };
-    static deleteMainCat = async ({ id }) => {
+    static deleteCart = async ({ id }) => {
         try {
             if (!id) {
                 return {
@@ -101,21 +99,21 @@ class mainCatService {
                     message: 'Missing id',
                 };
             }
-            const mainCat = await db.MainCat.findOne({
+            const cart = await db.Cart.findOne({
                 where: { id },
             });
-            if (!mainCat) {
+            if (!cart) {
                 return {
                     errCode: 3,
-                    message: `Delete mainCat failed, mainCat don't exist`,
+                    message: `Delete cart failed, cart don't exist`,
                 };
             }
-            await db.MainCat.destroy({
+            await db.Cart.destroy({
                 where: { id },
             });
             return {
                 errCode: 0,
-                message: 'Delete mainCat successful',
+                message: 'Delete cart successful',
             };
         } catch (error) {
             return {
@@ -126,4 +124,4 @@ class mainCatService {
     };
 }
 
-module.exports = mainCatService;
+module.exports = cartService;

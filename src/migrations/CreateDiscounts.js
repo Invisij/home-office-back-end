@@ -14,11 +14,12 @@ module.exports = {
                 allowNull: false,
             },
             name: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(100),
                 allowNull: false,
             },
             description: {
                 type: Sequelize.TEXT,
+                allowNull: true,
             },
             createdAt: {
                 type: Sequelize.DATE,

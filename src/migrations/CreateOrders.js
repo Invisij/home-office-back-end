@@ -12,17 +12,25 @@ module.exports = {
             customerId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
+                references: {
+                    model: 'Users',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
             },
             amount: {
                 type: Sequelize.INTEGER,
+                allowNull: false,
             },
             orderAddress: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(255),
                 allowNull: false,
             },
             orderStatus: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(50),
                 allowNull: false,
+                defaultValue: 'Đã tiếp nhận',
             },
             description: {
                 type: Sequelize.TEXT,

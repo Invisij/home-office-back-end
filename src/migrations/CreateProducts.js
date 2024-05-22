@@ -12,27 +12,66 @@ module.exports = {
             subCatId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
+                references: {
+                    model: 'SubCats',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
+            },
+            discountId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'Discounts',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
             },
             name: {
                 type: Sequelize.STRING,
+                allowNull: false,
+                validate: {
+                    len: [1, 255],
+                },
             },
             price: {
                 type: Sequelize.INTEGER,
+                allowNull: false,
+                validate: {
+                    min: 0,
+                },
             },
             sku: {
                 type: Sequelize.STRING,
+                allowNull: true,
+                validate: {
+                    len: [1, 100],
+                },
             },
             image: {
                 type: Sequelize.BLOB('long'),
+                allowNull: true,
             },
             status: {
                 type: Sequelize.STRING,
+                allowNull: true,
+                validate: {
+                    len: [1, 50],
+                },
             },
             quantity: {
                 type: Sequelize.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+                validate: {
+                    min: 0,
+                },
             },
             description: {
                 type: Sequelize.TEXT,
+                allowNull: true,
             },
             createdAt: {
                 type: Sequelize.DATE,

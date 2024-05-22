@@ -1,10 +1,9 @@
-import userService from '../services/userService';
+import cartService from '../services/cartService';
 
-class UserController {
-    // Auth
-    login = async (req, res, next) => {
+class CartController {
+    readCart = async (req, res, next) => {
         try {
-            const result = await userService.login(req.body);
+            const result = await cartService.readCart(req.query);
             return res.status(200).json({
                 errCode: result.errCode,
                 message: result.message,
@@ -14,10 +13,10 @@ class UserController {
             next(error);
         }
     };
-    readUser = async (req, res, next) => {
+    createCart = async (req, res, next) => {
         try {
-            const result = await userService.readUser(req.query);
-            return res.status(200).json({
+            const result = await cartService.createCart(req.body);
+            return res.status(201).json({
                 errCode: result.errCode,
                 message: result.message,
                 data: result.data || [],
@@ -26,21 +25,9 @@ class UserController {
             next(error);
         }
     };
-    createUser = async (req, res, next) => {
+    updateCart = async (req, res, next) => {
         try {
-            const result = await userService.createUser(req.body);
-            return res.status(201).json({
-                errCode: result.errCode,
-                message: result.message,
-                data: result.data || {},
-            });
-        } catch (error) {
-            next(error);
-        }
-    };
-    updateUser = async (req, res, next) => {
-        try {
-            const result = await userService.updateUser(req.body);
+            const result = await cartService.updateCart(req.body);
             return res.status(200).json({
                 errCode: result.errCode,
                 message: result.message,
@@ -50,9 +37,9 @@ class UserController {
             next(error);
         }
     };
-    deleteUser = async (req, res, next) => {
+    deleteCart = async (req, res, next) => {
         try {
-            const result = await userService.deleteUser(req.body);
+            const result = await cartService.deleteCart(req.body);
             return res.status(200).json({
                 errCode: result.errCode,
                 message: result.message,
@@ -64,4 +51,4 @@ class UserController {
     };
 }
 
-module.exports = new UserController();
+module.exports = new CartController();

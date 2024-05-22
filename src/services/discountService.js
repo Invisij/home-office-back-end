@@ -1,20 +1,20 @@
 import db from '../models';
 
-class mainCatService {
-    static readMainCat = async ({ name }) => {
+class discountService {
+    static readDiscount = async ({ name }) => {
         try {
-            let mainCats;
-            if (!name) {
-                mainCats = await db.MainCat.findAll();
-            } else {
-                mainCats = await db.MainCat.findAll({
+            let discounts;
+            if (name) {
+                discounts = await db.Discount.findAll({
                     where: { name },
                 });
+            } else {
+                discounts = await db.Discount.findAll();
             }
             return {
                 errCode: 0,
                 message: 'query successful',
-                data: mainCats,
+                data: discounts,
             };
         } catch (error) {
             return {
@@ -23,7 +23,7 @@ class mainCatService {
             };
         }
     };
-    static createMainCat = async ({ name, image, description }) => {
+    static createDiscount = async ({ name, number, description }) => {
         try {
             if (!name) {
                 return {
@@ -31,30 +31,30 @@ class mainCatService {
                     message: 'Missing name',
                 };
             }
-            if (!image) {
+            if (!number) {
                 return {
                     errCode: 2,
-                    message: 'Missing image',
+                    message: 'Missing number',
                 };
             }
-            const isMainCatExists = await db.MainCat.findOne({
+            const isDiscountExists = await db.Discount.findOne({
                 where: { name },
             });
-            if (isMainCatExists) {
+            if (isDiscountExists) {
                 return {
                     errCode: 3,
-                    message: 'This main cat already exists',
+                    message: 'This order already exists',
                 };
             }
-            const newMainCat = await db.MainCat.create({
+            const newDiscount = await db.Discount.create({
                 name,
-                image,
+                number,
                 description,
             });
             return {
                 errCode: 0,
-                message: 'Created a new mainCat successful',
-                data: newMainCat,
+                message: 'Created a new discount successful',
+                data: newDiscount,
             };
         } catch (error) {
             return {
@@ -63,7 +63,7 @@ class mainCatService {
             };
         }
     };
-    static updateMainCat = async ({ id, name, image, description }) => {
+    static updateDiscount = async ({ id, name, number, description }) => {
         try {
             if (!id) {
                 return {
@@ -71,20 +71,20 @@ class mainCatService {
                     message: 'Missing id',
                 };
             }
-            const mainCat = await db.MainCat.findOne({
+            const discount = await db.Discount.findOne({
                 where: { id },
             });
-            if (mainCat) {
-                await db.MainCat.update({ name, image, description }, { where: { id } });
+            if (discount) {
+                await db.Discount.update({ name, number, description }, { where: { id } });
                 return {
                     errCode: 0,
-                    message: 'Edit mainCat succcessful',
-                    mainCat,
+                    message: 'Edit discount succcessful',
+                    discount,
                 };
             }
             return {
                 errCode: 3,
-                message: 'Edit mainCat failed',
+                message: 'Edit discount failed',
             };
         } catch (error) {
             return {
@@ -93,7 +93,7 @@ class mainCatService {
             };
         }
     };
-    static deleteMainCat = async ({ id }) => {
+    static deleteDiscount = async ({ id }) => {
         try {
             if (!id) {
                 return {
@@ -101,21 +101,21 @@ class mainCatService {
                     message: 'Missing id',
                 };
             }
-            const mainCat = await db.MainCat.findOne({
+            const discount = await db.Discount.findOne({
                 where: { id },
             });
-            if (!mainCat) {
+            if (!discount) {
                 return {
                     errCode: 3,
-                    message: `Delete mainCat failed, mainCat don't exist`,
+                    message: `Delete discount failed, discount don't exist`,
                 };
             }
-            await db.MainCat.destroy({
+            await db.Discount.destroy({
                 where: { id },
             });
             return {
                 errCode: 0,
-                message: 'Delete mainCat successful',
+                message: 'Delete discount successful',
             };
         } catch (error) {
             return {
@@ -126,4 +126,4 @@ class mainCatService {
     };
 }
 
-module.exports = mainCatService;
+module.exports = discountService;

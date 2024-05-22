@@ -12,15 +12,27 @@ module.exports = {
             mainCatId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
+                references: {
+                    model: 'MainCats',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
             },
             name: {
                 type: Sequelize.STRING,
+                allowNull: false,
+                validate: {
+                    len: [1, 255],
+                },
             },
             image: {
                 type: Sequelize.BLOB('long'),
+                allowNull: true,
             },
             description: {
                 type: Sequelize.TEXT,
+                allowNull: true,
             },
             createdAt: {
                 type: Sequelize.DATE,

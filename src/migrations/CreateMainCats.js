@@ -10,13 +10,16 @@ module.exports = {
                 primaryKey: true,
             },
             name: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(100),
+                allowNull: false,
             },
             image: {
                 type: Sequelize.BLOB('long'),
+                allowNull: true,
             },
             description: {
                 type: Sequelize.TEXT,
+                allowNull: true,
             },
             createdAt: {
                 type: Sequelize.DATE,

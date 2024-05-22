@@ -12,16 +12,31 @@ module.exports = {
             cartId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
+                references: {
+                    model: 'Carts',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
             },
             productId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
+                references: {
+                    model: 'Products',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
             },
             price: {
                 type: Sequelize.INTEGER,
+                allowNull: true,
             },
             quantity: {
                 type: Sequelize.INTEGER,
+                allowNull: true,
+                defaultValue: 1,
             },
             createdAt: {
                 type: Sequelize.DATE,

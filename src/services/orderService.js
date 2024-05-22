@@ -1,24 +1,24 @@
 import db from '../models';
 
-class subCatService {
-    static readSubCat = async ({ mainCatId, name }) => {
+class orderService {
+    static readOrder = async ({ id, customerId }) => {
         try {
-            let subCats;
-            if (name) {
-                subCats = await db.SubCat.findAll({
-                    where: { name },
+            let orders;
+            if (id) {
+                orders = await db.Order.findAll({
+                    where: { id },
                 });
-            } else if (mainCatId) {
-                subCats = await db.SubCat.findAll({
-                    where: { mainCatId },
+            } else if (customerId) {
+                orders = await db.Order.findAll({
+                    where: { customerId },
                 });
             } else {
-                subCats = await db.SubCat.findAll();
+                orders = await db.Order.findAll();
             }
             return {
                 errCode: 0,
                 message: 'query successful',
-                data: subCats,
+                data: orders,
             };
         } catch (error) {
             return {
@@ -27,39 +27,46 @@ class subCatService {
             };
         }
     };
-    static createSubCat = async ({ mainCatId, name, image, description }) => {
+    static createOrder = async ({ customerId, amount, orderAddress, orderStatus, description }) => {
         try {
-            if (!name) {
+            if (!customerId) {
                 return {
                     errCode: 2,
                     message: 'Missing name',
                 };
             }
-            if (!image) {
+            if (!orderAddress) {
                 return {
                     errCode: 2,
-                    message: 'Missing image',
+                    message: 'Missing order address',
                 };
             }
-            const isSubCatExists = await db.SubCat.findOne({
-                where: { name },
+            if (!orderStatus) {
+                return {
+                    errCode: 2,
+                    message: 'Missing order status',
+                };
+            }
+            const isOrderExists = await db.Order.findOne({
+                where: { customerId },
             });
-            if (isSubCatExists) {
+            if (isOrderExists) {
                 return {
                     errCode: 3,
-                    message: 'This sub cat already exists',
+                    message: 'This order already exists',
                 };
             }
-            const newSubCat = await db.SubCat.create({
-                mainCatId,
-                name,
-                image,
+            const newOrder = await db.Order.create({
+                customerId,
+                amount,
+                orderAddress,
+                orderStatus,
                 description,
             });
             return {
                 errCode: 0,
-                message: 'Created a new subCat successful',
-                data: newSubCat,
+                message: 'Created a new order successful',
+                data: newOrder,
             };
         } catch (error) {
             return {
@@ -68,7 +75,7 @@ class subCatService {
             };
         }
     };
-    static updateSubCat = async ({ id, mainCatId, name, image, description }) => {
+    static updateOrder = async ({ id, amount, orderAddress, orderStatus, description }) => {
         try {
             if (!id) {
                 return {
@@ -76,20 +83,20 @@ class subCatService {
                     message: 'Missing id',
                 };
             }
-            const subCat = await db.SubCat.findOne({
+            const order = await db.Order.findOne({
                 where: { id },
             });
-            if (subCat) {
-                await db.SubCat.update({ mainCatId, name, image, description }, { where: { id } });
+            if (order) {
+                await db.Order.update({ amount, image, orderAddress, orderStatus, description }, { where: { id } });
                 return {
                     errCode: 0,
-                    message: 'Edit subCat succcessful',
-                    subCat,
+                    message: 'Edit order succcessful',
+                    order,
                 };
             }
             return {
                 errCode: 3,
-                message: 'Edit subCat failed',
+                message: 'Edit order failed',
             };
         } catch (error) {
             return {
@@ -98,7 +105,7 @@ class subCatService {
             };
         }
     };
-    static deleteSubCat = async ({ id }) => {
+    static deleteOrder = async ({ id }) => {
         try {
             if (!id) {
                 return {
@@ -106,21 +113,21 @@ class subCatService {
                     message: 'Missing id',
                 };
             }
-            const subCat = await db.SubCat.findOne({
+            const order = await db.Order.findOne({
                 where: { id },
             });
-            if (!subCat) {
+            if (!order) {
                 return {
                     errCode: 3,
-                    message: `Delete subCat failed, subCat don't exist`,
+                    message: `Delete order failed, order don't exist`,
                 };
             }
-            await db.SubCat.destroy({
+            await db.Order.destroy({
                 where: { id },
             });
             return {
                 errCode: 0,
-                message: 'Delete subCat successful',
+                message: 'Delete order successful',
             };
         } catch (error) {
             return {
@@ -131,4 +138,4 @@ class subCatService {
     };
 }
 
-module.exports = subCatService;
+module.exports = orderService;

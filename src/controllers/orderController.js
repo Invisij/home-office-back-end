@@ -1,10 +1,9 @@
-import userService from '../services/userService';
+import orderService from '../services/orderService';
 
-class UserController {
-    // Auth
-    login = async (req, res, next) => {
+class OrderController {
+    readOrder = async (req, res, next) => {
         try {
-            const result = await userService.login(req.body);
+            const result = await orderService.readOrder(req.query);
             return res.status(200).json({
                 errCode: result.errCode,
                 message: result.message,
@@ -14,10 +13,10 @@ class UserController {
             next(error);
         }
     };
-    readUser = async (req, res, next) => {
+    createOrder = async (req, res, next) => {
         try {
-            const result = await userService.readUser(req.query);
-            return res.status(200).json({
+            const result = await orderService.createOrder(req.body);
+            return res.status(201).json({
                 errCode: result.errCode,
                 message: result.message,
                 data: result.data || [],
@@ -26,21 +25,9 @@ class UserController {
             next(error);
         }
     };
-    createUser = async (req, res, next) => {
+    updateOrder = async (req, res, next) => {
         try {
-            const result = await userService.createUser(req.body);
-            return res.status(201).json({
-                errCode: result.errCode,
-                message: result.message,
-                data: result.data || {},
-            });
-        } catch (error) {
-            next(error);
-        }
-    };
-    updateUser = async (req, res, next) => {
-        try {
-            const result = await userService.updateUser(req.body);
+            const result = await orderService.updateOrder(req.body);
             return res.status(200).json({
                 errCode: result.errCode,
                 message: result.message,
@@ -50,9 +37,9 @@ class UserController {
             next(error);
         }
     };
-    deleteUser = async (req, res, next) => {
+    deleteOrder = async (req, res, next) => {
         try {
-            const result = await userService.deleteUser(req.body);
+            const result = await orderService.deleteOrder(req.body);
             return res.status(200).json({
                 errCode: result.errCode,
                 message: result.message,
@@ -64,4 +51,4 @@ class UserController {
     };
 }
 
-module.exports = new UserController();
+module.exports = new OrderController();

@@ -12,12 +12,20 @@ module.exports = {
             userId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
+                references: {
+                    model: 'Users',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
             },
             amount: {
                 type: Sequelize.INTEGER,
+                allowNull: true,
             },
             description: {
                 type: Sequelize.TEXT,
+                allowNull: true,
             },
             createdAt: {
                 type: Sequelize.DATE,
