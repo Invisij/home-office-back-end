@@ -47,15 +47,6 @@ class orderService {
                     message: 'Missing order status',
                 };
             }
-            const isOrderExists = await db.Order.findOne({
-                where: { customerId },
-            });
-            if (isOrderExists) {
-                return {
-                    errCode: 3,
-                    message: 'This order already exists',
-                };
-            }
             const newOrder = await db.Order.create({
                 customerId,
                 amount,
@@ -87,7 +78,7 @@ class orderService {
                 where: { id },
             });
             if (order) {
-                await db.Order.update({ amount, image, orderAddress, orderStatus, description }, { where: { id } });
+                await db.Order.update({ amount, orderAddress, orderStatus, description }, { where: { id } });
                 return {
                     errCode: 0,
                     message: 'Edit order succcessful',

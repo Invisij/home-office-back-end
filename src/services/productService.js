@@ -51,28 +51,10 @@ class productService {
                     message: 'Missing name',
                 };
             }
-            if (!sku) {
-                return {
-                    errCode: 2,
-                    message: 'Missing sku',
-                };
-            }
             if (!price) {
                 return {
                     errCode: 2,
                     message: 'Missing price',
-                };
-            }
-            if (!image) {
-                return {
-                    errCode: 2,
-                    message: 'Missing image',
-                };
-            }
-            if (!status) {
-                return {
-                    errCode: 2,
-                    message: 'Missing status',
                 };
             }
             if (!quantity) {

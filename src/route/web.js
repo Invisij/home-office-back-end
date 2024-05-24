@@ -8,6 +8,7 @@ import orderProductController from '../controllers/orderProductController';
 import cartController from '../controllers/cartController';
 import cartProductController from '../controllers/cartProductController';
 import allCodeController from '../controllers/allCodeController';
+import productController from '../controllers/productController';
 
 const router = express.Router();
 
@@ -54,6 +55,11 @@ const initWebRoutes = (app) => {
     router.get('/v1/api/read-cart-product', cartProductController.readCartProduct);
     router.put('/v1/api/update-cart-product', cartProductController.updateCartProduct);
     router.delete('/v1/api/delete-cart-product', cartProductController.deleteCartProduct);
+
+    router.post('/v1/api/create-product', productController.createProduct);
+    router.get('/v1/api/read-product', productController.readProduct);
+    router.put('/v1/api/update-product', productController.updateProduct);
+    router.delete('/v1/api/delete-product', productController.deleteProduct);
 
     // Get all code
     router.get('/v1/api/get-all-code', allCodeController.getAllCode);

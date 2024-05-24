@@ -49,15 +49,19 @@ class userService {
             };
         }
     };
-    static readUser = async ({ firstName }) => {
+    static readUser = async ({ id, firstName }) => {
         try {
             let users;
-            if (!firstName) {
-                users = await db.User.findAll();
-            } else {
+            if (firstName) {
                 users = await db.User.findAll({
                     where: { firstName },
                 });
+            } else if (id) {
+                users = await db.User.findAll({
+                    where: { id },
+                });
+            } else {
+                users = await db.User.findAll();
             }
             return {
                 errCode: 0,

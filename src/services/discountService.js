@@ -1,12 +1,16 @@
 import db from '../models';
 
 class discountService {
-    static readDiscount = async ({ name }) => {
+    static readDiscount = async ({ id, name }) => {
         try {
             let discounts;
             if (name) {
                 discounts = await db.Discount.findAll({
                     where: { name },
+                });
+            } else if (id) {
+                discounts = await db.Discount.findAll({
+                    where: { id },
                 });
             } else {
                 discounts = await db.Discount.findAll();

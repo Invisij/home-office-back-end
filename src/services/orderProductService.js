@@ -12,6 +12,14 @@ class orderProductService {
                 orderProducts = await db.OrderProduct.findAll({
                     where: { productId, orderId },
                 });
+            } else if (productId) {
+                orderProducts = await db.OrderProduct.findAll({
+                    where: { productId },
+                });
+            } else if (orderId) {
+                orderProducts = await db.OrderProduct.findAll({
+                    where: { orderId },
+                });
             } else {
                 orderProducts = await db.OrderProduct.findAll();
             }

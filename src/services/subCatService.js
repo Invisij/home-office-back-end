@@ -1,12 +1,16 @@
 import db from '../models';
 
 class subCatService {
-    static readSubCat = async ({ mainCatId, name }) => {
+    static readSubCat = async ({ id, mainCatId, name }) => {
         try {
             let subCats;
             if (name) {
                 subCats = await db.SubCat.findAll({
-                    where: { name },
+                    attributes: ['id', 'name'],
+                });
+            } else if (id) {
+                subCats = await db.SubCat.findAll({
+                    where: { id },
                 });
             } else if (mainCatId) {
                 subCats = await db.SubCat.findAll({
@@ -29,16 +33,16 @@ class subCatService {
     };
     static createSubCat = async ({ mainCatId, name, image, description }) => {
         try {
+            if (!mainCatId) {
+                return {
+                    errCode: 2,
+                    message: 'Missing mainCatId',
+                };
+            }
             if (!name) {
                 return {
                     errCode: 2,
                     message: 'Missing name',
-                };
-            }
-            if (!image) {
-                return {
-                    errCode: 2,
-                    message: 'Missing image',
                 };
             }
             const isSubCatExists = await db.SubCat.findOne({

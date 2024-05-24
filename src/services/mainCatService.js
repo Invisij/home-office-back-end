@@ -1,15 +1,19 @@
 import db from '../models';
 
 class mainCatService {
-    static readMainCat = async ({ name }) => {
+    static readMainCat = async ({ id, name }) => {
         try {
             let mainCats;
-            if (!name) {
-                mainCats = await db.MainCat.findAll();
-            } else {
+            if (name) {
                 mainCats = await db.MainCat.findAll({
-                    where: { name },
+                    attributes: ['id', 'name'],
                 });
+            } else if (id) {
+                mainCats = await db.MainCat.findAll({
+                    where: { id },
+                });
+            } else {
+                mainCats = await db.MainCat.findAll();
             }
             return {
                 errCode: 0,
@@ -29,12 +33,6 @@ class mainCatService {
                 return {
                     errCode: 2,
                     message: 'Missing name',
-                };
-            }
-            if (!image) {
-                return {
-                    errCode: 2,
-                    message: 'Missing image',
                 };
             }
             const isMainCatExists = await db.MainCat.findOne({
