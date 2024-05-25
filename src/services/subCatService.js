@@ -4,7 +4,12 @@ class subCatService {
     static readSubCat = async ({ id, mainCatId, name }) => {
         try {
             let subCats;
-            if (name) {
+            if (name && mainCatId) {
+                subCats = await db.SubCat.findAll({
+                    where: { mainCatId },
+                    attributes: ['id', 'name'],
+                });
+            } else if (name) {
                 subCats = await db.SubCat.findAll({
                     attributes: ['id', 'name'],
                 });
