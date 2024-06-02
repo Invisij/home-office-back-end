@@ -32,7 +32,7 @@ class cartService {
             if (!userId) {
                 return {
                     errCode: 2,
-                    message: 'Missing name',
+                    message: 'Missing userId',
                 };
             }
             const isCartExists = await db.Cart.findOne({

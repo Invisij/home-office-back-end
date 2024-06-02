@@ -12,6 +12,10 @@ class cartProductService {
                 cartProducts = await db.CartProduct.findAll({
                     where: { cartId, productId },
                 });
+            } else if (cartId) {
+                cartProducts = await db.CartProduct.findAll({
+                    where: { cartId },
+                });
             } else {
                 cartProducts = await db.CartProduct.findAll();
             }
@@ -27,12 +31,12 @@ class cartProductService {
             };
         }
     };
-    static createCartProduct = async ({ cardId, productId, price, quantity }) => {
+    static createCartProduct = async ({ cartId, productId, price, quantity }) => {
         try {
-            if (!cardId) {
+            if (!cartId) {
                 return {
                     errCode: 2,
-                    message: 'Missing cardId',
+                    message: 'Missing cartId',
                 };
             }
             if (!productId) {
@@ -54,16 +58,17 @@ class cartProductService {
                 };
             }
             const isCartProductExists = await db.CartProduct.findOne({
-                where: { cardId, productId },
+                where: { cartId, productId },
             });
             if (isCartProductExists) {
                 return {
                     errCode: 3,
                     message: 'This cartProduct already exists',
+                    data: isCartProductExists,
                 };
             }
             const newCartProduct = await db.CartProduct.create({
-                cardId,
+                cartId,
                 productId,
                 price,
                 quantity,
@@ -80,7 +85,7 @@ class cartProductService {
             };
         }
     };
-    static updateCartProduct = async ({ id, cardId, productId, price, quantity }) => {
+    static updateCartProduct = async ({ id, cartId, productId, price, quantity }) => {
         try {
             if (!id) {
                 return {
@@ -92,7 +97,7 @@ class cartProductService {
                 where: { id },
             });
             if (cartProduct) {
-                await db.CartProduct.update({ cardId, productId, price, quantity }, { where: { id } });
+                await db.CartProduct.update({ cartId, productId, price, quantity }, { where: { id } });
                 return {
                     errCode: 0,
                     message: 'Edit cartProduct succcessful',
@@ -110,26 +115,30 @@ class cartProductService {
             };
         }
     };
-    static deleteCartProduct = async ({ id }) => {
+    static deleteCartProduct = async ({ id, cartId, productId }) => {
         try {
-            if (!id) {
+            if (cartId && productId) {
+                await db.CartProduct.destroy({
+                    where: { cartId, productId },
+                });
+            } else if (cartId) {
+                await db.CartProduct.destroy({
+                    where: { cartId },
+                });
+            } else if (productId) {
+                await db.CartProduct.destroy({
+                    where: { productId },
+                });
+            } else if (id) {
+                await db.CartProduct.destroy({
+                    where: { id },
+                });
+            } else {
                 return {
                     errCode: 2,
-                    message: 'Missing id',
+                    message: 'Missing param to delete cartProduct',
                 };
             }
-            const cartProduct = await db.CartProduct.findOne({
-                where: { id },
-            });
-            if (!cartProduct) {
-                return {
-                    errCode: 3,
-                    message: `Delete cartProduct failed, cartProduct don't exist`,
-                };
-            }
-            await db.CartProduct.destroy({
-                where: { id },
-            });
             return {
                 errCode: 0,
                 message: 'Delete cartProduct successful',

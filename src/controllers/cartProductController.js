@@ -39,6 +39,7 @@ class CartProductController {
     };
     deleteCartProduct = async (req, res, next) => {
         try {
+            console.log(req.body);
             const result = await cartProductService.deleteCartProduct(req.body);
             return res.status(200).json({
                 errCode: result.errCode,
